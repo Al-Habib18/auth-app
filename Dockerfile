@@ -1,38 +1,26 @@
-# 1. Use Node base image
-# FROM node:24-alpine
+# Use a lighter Node image
+FROM node:18-slim
 
-# # 2. Set working directory
-# WORKDIR /app
-
-# # 3. Copy package files first (for caching)
-# COPY package.json package-lock.json ./
-
-# # 4. Install dependencies
-# RUN npm install
-
-# # 5. Copy the rest of the app
-# COPY . .
-
-# # 6. Build Prisma client & TypeScript
-# RUN npx prisma generate
-# # RUN npm run build
-
-# # 7. Expose port (change if your app runs on a different port)
-# EXPOSE 3000
-
-# # 8. Start the app
-# CMD ["npm", "run","dev"]
-FROM node:20-alpine
-
-# Required for Prisma CLI
-RUN apk add --no-cache openssl
-
+# Set working directory
 WORKDIR /app
+
+# Copy package files
 COPY package*.json ./
+
+# Install dependencies
 RUN npm install
+
+# Copy source files
 COPY . .
-RUN npx prisma generate
+
+# Build TypeScript
 RUN npm run build
 
+# Generate Prisma client
+RUN npx prisma generate
+
+# Expose port
 EXPOSE 3000
+
+# Start app
 CMD ["node", "dist/index.js"]
