@@ -13,11 +13,11 @@ RUN npm install
 # Copy source files
 COPY . .
 
-# Build TypeScript
-RUN npm run build
-
-# Generate Prisma client
+# Generate Prisma client BEFORE build
 RUN npx prisma generate
+
+# Build TypeScript after Prisma client is ready
+RUN npm run build
 
 # Expose port
 EXPOSE 3000
