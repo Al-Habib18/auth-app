@@ -16,6 +16,10 @@ app.use(cors()); //set corsOption
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
 
+app.get("/", (_req, res) => {
+    res.json({ message: "hello world" });
+});
+
 app.get("/hello", (_req, res) => {
     res.json({ message: "hello world" });
 });
@@ -40,5 +44,5 @@ const PORT = process.env.PORT || 3000;
 
 // Start Server
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Server is running ....`);
 });
